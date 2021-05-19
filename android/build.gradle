@@ -26,7 +26,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 16
         consumerProguardFiles 'consumer-proguard-rules.pro'
     }
     lintOptions {
