@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ImagesPicker {
-  static const MethodChannel _channel =
-      const MethodChannel('chavesgu/images_picker');
+  static const MethodChannel _channel = const MethodChannel('');
 
-  static Future<List<Media>?> pick({
+  static Future<List<Media>> pick({
     int count = 1,
     PickType pickType = PickType.image,
     bool gif = true,
-    CropOption? cropOpt,
-    int? maxSize,
-    double? quality,
+    CropOption cropOpt,
+    int maxSize,
+    double quality,
     Language language = Language.System,
   }) async {
     assert(count > 0, 'count must > 0');
@@ -24,7 +24,7 @@ class ImagesPicker {
       assert(maxSize > 0, 'maxSize must > 0');
     }
     try {
-      List<dynamic>? res = await _channel.invokeMethod('pick', {
+      List<dynamic> res = await _channel.invokeMethod('pick', {
         "count": count,
         "pickType": pickType.toString(),
         "gif": gif,
@@ -57,12 +57,12 @@ class ImagesPicker {
     }
   }
 
-  static Future<List<Media>?> openCamera({
+  static Future<List<Media>> openCamera({
     PickType pickType = PickType.image,
     int maxTime = 15,
-    CropOption? cropOpt,
-    int? maxSize,
-    double? quality,
+    CropOption cropOpt,
+    int maxSize,
+    double quality,
     Language language = Language.System,
   }) async {
     if (quality != null) {
@@ -73,7 +73,7 @@ class ImagesPicker {
       assert(maxSize > 0, 'maxSize must > 0');
     }
     try {
-      List<dynamic>? res = await _channel.invokeMethod('openCamera', {
+      List<dynamic> res = await _channel.invokeMethod('openCamera', {
         "pickType": pickType.toString(),
         "maxTime": maxTime,
         "maxSize": maxSize ?? null,
@@ -105,7 +105,7 @@ class ImagesPicker {
     }
   }
 
-  static Future<bool> saveImageToAlbum(File file, {String? albumName}) async {
+  static Future<bool> saveImageToAlbum(File file, {String albumName}) async {
     try {
       return await _channel.invokeMethod('saveImageToAlbum', {
         "path": file.path,
@@ -117,7 +117,7 @@ class ImagesPicker {
     }
   }
 
-  static Future<bool> saveVideoToAlbum(File file, {String? albumName}) async {
+  static Future<bool> saveVideoToAlbum(File file, {String albumName}) async {
     try {
       return await _channel.invokeMethod('saveVideoToAlbum', {
         "path": file.path,
@@ -172,7 +172,7 @@ class CropAspectRatio {
 
 class CropOption {
   final CropType cropType;
-  final CropAspectRatio? aspectRatio;
+  final CropAspectRatio aspectRatio;
 
   CropOption({
     this.aspectRatio = CropAspectRatio.custom,
@@ -183,7 +183,7 @@ class CropOption {
 class Media {
   ///视频缩略图图片路径
   ///Video thumbnail image path
-  String? thumbPath;
+  String thumbPath;
 
   ///视频路径或图片路径
   ///Video path or image path
@@ -193,8 +193,8 @@ class Media {
   double size;
 
   Media({
-    required this.path,
+    @required this.path,
     this.thumbPath,
-    required this.size,
+    @required this.size,
   });
 }

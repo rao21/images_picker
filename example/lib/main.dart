@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'package:images_picker/images_picker.dart';
 
@@ -16,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String? path;
+  String path;
 
   @override
   void initState() {
@@ -35,13 +33,13 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(
               child: Text('pick'),
               onPressed: () async {
-                List<Media>? res = await ImagesPicker.pick(
-                  count: 3,
-                  pickType: PickType.all,
+                List<Media> res = await ImagesPicker.pick(
+                  count: 1,
+                  pickType: PickType.image,
                   language: Language.System,
-                  // maxSize: 500,
+                   maxSize: 500,
                   cropOpt: CropOption(
-                    aspectRatio: CropAspectRatio.wh16x9,
+                    aspectRatio: CropAspectRatio.wh9x16,
                   ),
                 );
                 if (res != null) {
@@ -57,13 +55,13 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(
               child: Text('openCamera'),
               onPressed: () async {
-                List<Media>? res = await ImagesPicker.openCamera(
+                List<Media> res = await ImagesPicker.openCamera(
                   pickType: PickType.image,
                   quality: 0.5,
-                  // cropOpt: CropOption(
-                  //   aspectRatio: CropAspectRatio.wh16x9,
-                  // ),
-                  // maxTime: 60,
+                  cropOpt: CropOption(
+                    aspectRatio: CropAspectRatio.wh16x9,
+                  ),
+                  maxTime: 60,
                 );
                 if (res != null) {
                   print(res[0].path);
@@ -75,21 +73,21 @@ class _MyAppState extends State<MyApp> {
             ),
             ElevatedButton(
               onPressed: () async {
-                File file =
-                    await downloadFile('https://cdn.chavesgu.com/logo.png');
-                bool res = await ImagesPicker.saveImageToAlbum(file,
-                    albumName: "chaves");
-                print(res);
+                // File file =
+                //     await downloadFile('https://cdn.chavesgu.com/logo.png');
+                // bool res = await ImagesPicker.saveImageToAlbum(file,
+                //     albumName: "chaves");
+                // print(res);
               },
               child: Text('saveNetworkImageToAlbum'),
             ),
             ElevatedButton(
               onPressed: () async {
-                File file = await downloadFile(
-                    'https://cdn.chavesgu.com/SampleVideo.mp4');
-                bool res = await ImagesPicker.saveVideoToAlbum(file,
-                    albumName: "chaves");
-                print(res);
+                // File file = await downloadFile(
+                //     'https://cdn.chavesgu.com/SampleVideo.mp4');
+                // bool res = await ImagesPicker.saveVideoToAlbum(file,
+                //     albumName: "chaves");
+                //print(res);
               },
               child: Text('saveNetworkVideoToAlbum'),
             ),
@@ -97,7 +95,7 @@ class _MyAppState extends State<MyApp> {
                 ? Container(
                     height: 200,
                     child: Image.file(
-                      File(path!),
+                      File(path),
                       fit: BoxFit.contain,
                     ),
                   )
@@ -106,15 +104,5 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-  }
-
-  Future<File> downloadFile(String url) async {
-    Dio simple = Dio();
-    String savePath = Directory.systemTemp.path + '/' + url.split('/').last;
-    await simple.download(url, savePath,
-        options: Options(responseType: ResponseType.bytes));
-    print(savePath);
-    File file = new File(savePath);
-    return file;
   }
 }
