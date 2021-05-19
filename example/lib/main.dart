@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
                   count: 1,
                   pickType: PickType.image,
                   language: Language.System,
-                   maxSize: 500,
+                   //maxSize: 500,
                   cropOpt: CropOption(
                     aspectRatio: CropAspectRatio.wh9x16,
                   ),
